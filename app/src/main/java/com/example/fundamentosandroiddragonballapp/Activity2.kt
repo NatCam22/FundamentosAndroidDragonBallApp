@@ -5,11 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
 import com.example.fundamentosandroiddragonballapp.databinding.Activity2Binding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 interface LoadingPage{
     fun showLoading(b: Boolean)
@@ -17,7 +14,7 @@ interface LoadingPage{
 
 class Activity2 : AppCompatActivity(), LoadingPage {
     private lateinit var binding: Activity2Binding
-
+    private val viewModel: Activity2ViewModel by viewModels()
     companion object{
         val TOKEN = "TOKEN"
         fun lanzarActivity(context: Context, token:String){
@@ -34,13 +31,19 @@ class Activity2 : AppCompatActivity(), LoadingPage {
 
         val token = intent.getStringExtra(TOKEN)
         token?.let { mostrarFragmentLista(token)}
+        setListeners()
 
     }
 
+    fun setListeners(){
+        binding.button.setOnClickListener {
+            viewModel.curarHeros()
+        }
+    }
     private fun mostrarFragmentLista(token: String){
         supportFragmentManager
             .beginTransaction()
-            .add(binding.fFragment.id, FragmentListHeros(token, this))
+            .add(binding.fFragment.id, FragmentListHeros(token))
             .commit()
     }
 

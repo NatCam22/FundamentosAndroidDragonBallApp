@@ -16,7 +16,7 @@ interface Clickable{
     fun onHeroSelected(hero: Hero)
 }
 
-class FragmentListHeros(val token: String, val activity2: LoadingPage) : Fragment(), Clickable {
+class FragmentListHeros(val token: String) : Fragment(), Clickable {
 
     private lateinit var binding: FragmentListHerosBinding
     private val heroAdapter = HeroAdapter(this)

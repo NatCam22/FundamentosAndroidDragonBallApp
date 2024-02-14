@@ -27,7 +27,6 @@ class Activity2ViewModel : ViewModel(){
     ///States: Sealed class
 
 
-
     sealed class StateDetail{
         class Idle: StateDetail()
         class Error(val message: String): StateDetail()
@@ -131,6 +130,22 @@ class Activity2ViewModel : ViewModel(){
                 heroList[pos] = it
                 _uiState.value = State.OnHerosUpdated(heroList)
             }
+        }
+    }
+
+    fun curarHeros(){
+        if(heroList.isEmpty()){
+            _uiStateDetail.value = StateDetail.Error("I dont know any heros")
+        }else{
+            heroSelected?.let {
+                it.vidaActual = it.vidaMaxima
+                _uiStateDetail.value = StateDetail.OnHeroCured(it)
+            }
+            val herosCured = heroList.map {
+                it.vidaActual = it.vidaMaxima
+                it
+            }
+            _uiState.value = State.OnHerosUpdated(herosCured)
         }
     }
 }
